@@ -73,9 +73,9 @@ int main(int argc, char **argv) {
 
     /* Collect and parse stylesheets and files to be transformed */
     for (; arg_indx < argc; arg_indx++) {
-        char *argument =
-            (char *) malloc(sizeof(char) * (strlen(argv[arg_indx]) + 1));
-        strcpy(argument, argv[arg_indx]);
+        size_t argument_length = sizeof(char) * (strlen(argv[arg_indx]) + 1);
+        char *argument = (char *) malloc(argument_length);
+        strncpy(argument, argv[arg_indx], argument_length);
         if (strtok(argument, ".")) {
             char *suffix = strtok(0, ".");
             if (suffix && !strcmp(suffix, "xsl")) {

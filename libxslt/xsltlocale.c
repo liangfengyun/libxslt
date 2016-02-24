@@ -194,7 +194,7 @@ xsltNewLocale(const xmlChar *languageTag) {
     region = xsltDefaultRegion(localeName);
     if (region == NULL) goto end;
 
-    strcpy(localeName + llen + 1, region);
+    strncpy(localeName + llen + 1, region, XSLTMAX_LANGTAGLEN - (llen + 1));
     locale = xslt_locale_WINAPI(localeName);
 end:
     return(locale);
