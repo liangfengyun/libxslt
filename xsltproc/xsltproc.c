@@ -7,6 +7,7 @@
  */
 
 #include "libxslt/libxslt.h"
+#include "libxslt/xsltconfig.h"
 #include "libexslt/exslt.h"
 #include <stdio.h>
 #ifdef HAVE_STRING_H
@@ -239,6 +240,8 @@ my_gettimeofday(struct timeval *tvp, void *tzp)
 #endif /* HAVE_SYS_TIMEB_H */
 #endif /* !HAVE_GETTIMEOFDAY */
 
+static void endTimer(const char *format, ...) LIBXSLT_ATTR_FORMAT(1,2);
+
 #if defined(HAVE_GETTIMEOFDAY)
 static struct timeval begin, endtime;
 /*
@@ -267,7 +270,10 @@ static void endTimer(const char *format, ...)
 #error "endTimer required stdarg functions"
 #endif
     va_start(ap, format);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wformat-nonliteral"
     vfprintf(stderr,format,ap);
+#pragma clang diagnostic pop
     va_end(ap);
 
     fprintf(stderr, " took %ld ms\n", msec);
@@ -299,7 +305,10 @@ static void endTimer(char *format, ...)
 #error "endTimer required stdarg functions"
 #endif
     va_start(ap, format);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wformat-nonliteral"
     vfprintf(stderr,format,ap);
+#pragma clang diagnostic pop
     va_end(ap);
     fprintf(stderr, " took %ld ms\n", msec);
 }
@@ -320,7 +329,10 @@ static void endTimer(char *format, ...)
    */
 #ifdef HAVE_STDARG_H
     va_start(ap, format);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wformat-nonliteral"
     vfprintf(stderr,format,ap);
+#pragma clang diagnostic pop
     va_end(ap);
     fprintf(stderr, " was not timed\n");
 #else
