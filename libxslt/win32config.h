@@ -125,5 +125,7 @@ __inline int c99_snprintf(char *outBuf, size_t size, const char *format, ...)
 
 #define _WINSOCKAPI_
 
+#define LIBXSLT_ATTR_FORMAT(fmt,args)
+
 #endif /* __LIBXSLT_WIN32_CONFIG__ */
 
